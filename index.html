@@ -1,0 +1,270 @@
+<html>
+
+
+<style>
+
+.container {
+display: grid;
+width: 50%;
+height: 70%;
+grid-template-columns: 1fr 1fr 1fr 1fr;
+grid-column-gap: 5px;
+grid-template-rows: 1.3fr 1fr 1fr 1fr 1fr 1fr;
+grid-row-gap: 5px;
+background-color: gray;
+}
+
+.screen {
+grid-column: 1/5;
+background-color: greenyellow;
+display: flex;
+justify-content: center;
+align-items: center;
+float: right;
+border: 2px solid black;
+font-size: 3em;
+}
+
+.buttons {
+display: flex;
+justify-content: center;
+align-items: center;
+border: 2px solid black;
+font-size: 3em;
+background-color: darkmagenta;
+}
+
+#numDisplay {
+
+}
+
+#equalssign {
+    display: flex;
+justify-content: center;
+align-items: center;
+border: 2px solid black;
+font-size: 3em;
+background-color: darkmagenta;
+    grid-column: 3/5;
+}
+
+input[type="button"], input[type="submit"] { 
+    color:#050; 
+    font: bold 84% 'trebuchet ms',helvetica,sans-serif; 
+    background-color:#fed; 
+    border:1px solid; 
+    border-color: #696 #363 #363 #696; 
+} 
+
+</style>
+
+
+<script>
+let i = 0;
+var XARR = [];
+var NUMBER = {};
+var liveNum;
+var Z;
+var DVAL = {};
+
+function displayValue(X) {
+    var X;
+    XARR[i] = X;
+    var liveNum = "";
+    i++;
+
+    for (k = 0; k < i; k++) {
+        liveNum = liveNum + XARR[k];
+    }
+
+   document.getElementById("numDisplay").innerHTML = liveNum;
+   DVAL.live = liveNum;
+
+
+
+}
+
+function operand(OPP) {
+
+if (Boolean(DVAL.opp) == true) {
+var OPP;
+calculate();
+DVAL.opp = OPP;
+NUMBER.one = DVAL.live;
+DVAL.live = "";
+XARR = [];
+i = 0;
+} else {
+var OPP;
+NUMBER.one = DVAL.live;
+DVAL.opp = OPP;
+XARR = [];
+i = 0;
+DVAL.live = "";
+}
+}
+
+
+function calculate() {
+
+NUMBER.two = DVAL.live;
+
+if (DVAL.opp == "+") {
+Z = add(NUMBER.one,NUMBER.two);
+document.getElementById("numDisplay").innerHTML = Z;
+DVAL.live = Z;
+DVAL.opp = "";
+}   else if (DVAL.opp == "-") {
+    Z =  subtract(NUMBER.one,NUMBER.two);
+  document.getElementById("numDisplay").innerHTML = Z;
+  DVAL.live = Z;
+  DVAL.opp = "";
+}       else if (DVAL.opp == "*") {
+    Z =    multiply(NUMBER.one,NUMBER.two);
+     document.getElementById("numDisplay").innerHTML = Z;
+     DVAL.live = Z;
+     DVAL.opp = "";
+}           else if (DVAL.opp == "/") {
+    Z =     divide(NUMBER.one,NUMBER.two);
+       document.getElementById("numDisplay").innerHTML = Z;
+       DVAL.live = Z;
+       DVAL.opp = "";
+}
+
+}
+
+
+function calculateContinue() {
+
+NUMBER.two = DVAL.live;
+
+if (DVAL.opp == "+") {
+Z = add(NUMBER.one,NUMBER.two);
+document.getElementById("numDisplay").innerHTML = Z;
+DVAL.live = Z;
+}   else if (DVAL.opp == "-") {
+    Z =  subtract(NUMBER.one,NUMBER.two);
+  document.getElementById("numDisplay").innerHTML = Z;
+  DVAL.live = Z;
+}       else if (DVAL.opp == "*") {
+    Z =    multiply(NUMBER.one,NUMBER.two);
+     document.getElementById("numDisplay").innerHTML = Z;
+     DVAL.live = Z;
+}           else if (DVAL.opp == "/") {
+    Z =     divide(NUMBER.one,NUMBER.two);
+       document.getElementById("numDisplay").innerHTML = Z;
+       DVAL.live = Z;
+}
+
+}
+
+
+
+function clearDisplay() {
+    document.getElementById("numDisplay").innerHTML = "";
+    XARR = [];
+    liveNum = "";
+    i = 0;
+    DVAL.opp = "";
+}
+
+function flipSign() {    
+DVAL.live = 0 - DVAL.live;
+
+document.getElementById("numDisplay").innerHTML = DVAL.live;
+
+}
+
+function backspace() {
+var liveBack = DVAL.live.slice(0, -1);
+DVAL.live = liveBack;
+document.getElementById("numDisplay").innerHTML = DVAL.live;
+
+}
+
+function add (X,Y) {
+	
+    var X;
+    var Y;
+    var Z;
+    var XNUM = Number(X);
+    var YNUM = Number(Y);
+    
+    Z = XNUM + YNUM;
+    return(Z);
+    
+    }
+
+function subtract (X,Y) {
+    var X;
+    var Y;
+    var Z;
+    var XNUM = Number(X);
+    var YNUM = Number(Y);
+
+    Z = XNUM - YNUM;
+    return(Z);
+
+}
+
+function multiply (X,Y) {
+    var X;
+    var Y;
+    var Z;
+    var XNUM = Number(X);
+    var YNUM = Number(Y);
+
+    Z = XNUM * YNUM;
+
+
+    return(Z);
+
+}
+
+function divide (X,Y) {
+    var X;
+    var Y;
+    var Z;
+    var XNUM = Number(X);
+    var YNUM = Number(Y);
+
+    if (YNUM == 0) {
+        Z = "NOPE"
+    }       else {
+                Z = XNUM / YNUM;
+    }
+
+return(Z);
+
+}
+
+</script>
+
+
+<div class = "container">
+    <div id="numDisplay" class="screen"></div>
+    <div class="buttons" class="add"> <input type="button" value ="+" onClick = "operand('+')"> </div>
+    <div class="buttons" class="subtract"><input type="button" value ="-" onClick = "operand('-')"></div>
+    <div class="buttons" class="multiply"><input type="button" value ="x" onClick = "operand('*')"></div>
+    <div class="buttons" class="divide"><input type="button" value ="/" onClick = "operand('/')"></div>
+    <div class="buttons" class="number7"><input type="button" value ="7" onClick = "displayValue(7)"></div>
+    <div class="buttons" class="number8"><input type="button" value ="8" onClick = "displayValue(8)"></div>
+    <div class="buttons" class="number9"><input type="button" value ="9" onClick = "displayValue(9)"></div>
+    <div class="buttons" class="clear"><input type="button" value = &#9003 onClick = "backspace()"></div>
+    <div class="buttons" class="number4"><input type="button" value ="4" onClick = "displayValue(4)"></div>
+    <div class="buttons" class="number5"><input type="button" value ="5" onClick = "displayValue(5)"></div>
+    <div class="buttons" class="number6"><input type="button" value ="6" onClick = "displayValue(6)"></div>
+    <div class="buttons" class="clear"><input type="button" value ="C" onClick = "clearDisplay()"></div>
+    <div class="buttons" class="number1"><input type="button" value ="1" onClick = "displayValue(1)"></div>
+    <div class="buttons" class="number2"><input type="button" value ="2" onClick = "displayValue(2)"></div>
+    <div class="buttons" class="number3"><input type="button" value ="3" onClick = "displayValue(3)"></div>
+    <div class="buttons" class="positiveNegative"><input type="button" value ="+/-" onClick = "flipSign()"></div>
+    <div class="buttons" ><input type="button" value ="." onClick = "displayValue('.')"></div>
+    <div class="buttons" ><input type="button" value ="0" onClick = "displayValue(0)"></div>
+
+    <div class="buttons" id = "equalssign" class="equals"><input type="button" value ="=" onClick = "calculate()"></div>
+</div>
+
+
+
+</html>
